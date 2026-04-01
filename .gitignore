@@ -1,0 +1,13 @@
+# Build artefacts
+build/
+*.zip
+NvidiaHackintoshDriver.kext/Contents/MacOS/NvidiaHackintoshDriver
+
+# macOS metadata
+.DS_Store
+
+# Editor files
+*.swp
+*.swo
+.vscode/
+.idea/

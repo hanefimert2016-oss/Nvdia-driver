@@ -1,0 +1,114 @@
+name: Build and Test – NvidiaHackintoshDriver
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+# Restrict the default GITHUB_TOKEN to read-only access.
+# Jobs that need to upload artefacts are granted the minimum required scope.
+permissions:
+  contents: read
+
+jobs:
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 1: Lint & validate (runs on Linux; no macOS SDK required)
+  # ──────────────────────────────────────────────────────────────────────────
+  lint-and-validate:
+    name: Lint & Validate (Linux)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install clang and xmllint
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y clang libxml2-utils
+
+      - name: Validate Info.plist (XML well-formedness)
+        run: make validate
+
+      - name: Syntax-check C++ sources
+        run: make lint
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 2: Unit tests (runs on Linux; plain C, no IOKit required)
+  # ──────────────────────────────────────────────────────────────────────────
+  unit-tests:
+    name: Unit Tests (Linux)
+    runs-on: ubuntu-latest
+    needs: lint-and-validate
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y gcc make
+
+      - name: Build test binary
+        run: make test
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 3: Full kext build (macOS only)
+  # ──────────────────────────────────────────────────────────────────────────
+  build-macos:
+    name: Build kext (macOS)
+    runs-on: macos-latest
+    needs: unit-tests
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select latest Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Build kext binary
+        run: make all
+
+      - name: Validate final Info.plist with plutil
+        run: plutil -lint NvidiaHackintoshDriver.kext/Contents/Info.plist
+
+      - name: Upload kext artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NvidiaHackintoshDriver-kext
+          path: NvidiaHackintoshDriver.kext/
+          retention-days: 30
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Job 4: Debug build (macOS) – extra sanitisers, verbose logging
+  # ──────────────────────────────────────────────────────────────────────────
+  debug-build:
+    name: Debug Build (macOS)
+    runs-on: macos-latest
+    needs: build-macos
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select latest Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Build kext (debug flags)
+        run: |
+          make all \
+            EXTRA_CFLAGS="-DDEBUG -DNVIDIA_VERBOSE_LOGGING -g -O0 -fsanitize=address"
+
+      - name: Upload debug artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NvidiaHackintoshDriver-kext-debug
+          path: NvidiaHackintoshDriver.kext/
+          retention-days: 7
