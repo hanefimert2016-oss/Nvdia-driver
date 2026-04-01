@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>English</string>
+
+  <key>CFBundleExecutable</key>
+  <string>NvidiaHackintoshDriver</string>
+
+  <key>CFBundleIdentifier</key>
+  <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+
+  <key>CFBundleName</key>
+  <string>NvidiaHackintoshDriver</string>
+
+  <key>CFBundlePackageType</key>
+  <string>KEXT</string>
+
+  <key>CFBundleShortVersionString</key>
+  <string>1.0.0</string>
+
+  <key>CFBundleVersion</key>
+  <string>1.0.0</string>
+
+  <key>CFBundleSignature</key>
+  <string>????</string>
+
+  <!-- OSBundleLibraries: frameworks this kext depends on -->
+  <key>OSBundleLibraries</key>
+  <dict>
+    <key>com.apple.iokit.IOPCIFamily</key>
+    <string>2.9</string>
+    <key>com.apple.iokit.IOGraphicsFamily</key>
+    <string>2.4.1</string>
+    <key>com.apple.kpi.iokit</key>
+    <string>8.0.0b1</string>
+    <key>com.apple.kpi.libkern</key>
+    <string>8.0.0b1</string>
+    <key>com.apple.kpi.mach</key>
+    <string>8.0.0b1</string>
+  </dict>
+
+  <!-- IOKitPersonalities: one entry per PCI device ID -->
+  <key>IOKitPersonalities</key>
+  <dict>
+
+    <!-- =====================================================================
+         GTX 10xx (Pascal) – selected models
+         =================================================================== -->
+
+    <key>NVIDIA GeForce GTX 1050</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1C8110DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1C8110DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce GTX 1050 Ti</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1C8210DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1C8210DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce GTX 1060 3GB</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1C0210DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1C0210DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce GTX 1060 6GB</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1C0310DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1C0310DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce GTX 1070</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1B8110DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1B8110DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce GTX 1070 Ti</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1B8210DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1B8210DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce GTX 1080</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1B8010DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1B8010DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce GTX 1080 Ti</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1B0610DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1B0610DE</string>
+    </dict>
+
+    <!-- =====================================================================
+         RTX 20xx (Turing)
+         =================================================================== -->
+
+    <key>NVIDIA GeForce RTX 2060</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1F0810DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1F0810DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 2060 Super</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1F0610DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1F0610DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 2070</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1F0210DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1F0210DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 2070 Super</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1E8410DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1E8410DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 2080</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1E8210DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1E8210DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 2080 Super</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1E8110DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1E8110DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 2080 Ti</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x1E0410DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x1E0410DE</string>
+    </dict>
+
+    <!-- =====================================================================
+         RTX 30xx (Ampere)
+         =================================================================== -->
+
+    <key>NVIDIA GeForce RTX 3050</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x258410DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x258410DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 3060</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x250310DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x250310DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 3060 Ti</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x248610DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x248610DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 3070</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x248410DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x248410DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 3070 Ti</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x248210DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x248210DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 3080</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x220610DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x220610DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 3080 Ti</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x220810DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x220810DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 3090</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x220410DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x220410DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 3090 Ti</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x220310DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x220310DE</string>
+    </dict>
+
+    <!-- =====================================================================
+         RTX 40xx (Ada Lovelace)
+         =================================================================== -->
+
+    <key>NVIDIA GeForce RTX 4060</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x288210DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x288210DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 4060 Ti</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x280310DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x280310DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 4070</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x278610DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x278610DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 4070 Super</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x278310DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x278310DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 4070 Ti</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x278210DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x278210DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 4080</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x270410DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x270410DE</string>
+    </dict>
+
+    <key>NVIDIA GeForce RTX 4090</key>
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>com.hackintosh.driver.NvidiaHackintoshDriver</string>
+      <key>IOClass</key>
+      <string>NvidiaController</string>
+      <key>IOProviderClass</key>
+      <string>IOPCIDevice</string>
+      <key>IOPCIMatch</key>
+      <string>0x268410DE</string>
+      <key>IOPCIPrimaryMatch</key>
+      <string>0x268410DE</string>
+    </dict>
+
+  </dict>
+</dict>
+</plist>
