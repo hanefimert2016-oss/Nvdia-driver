@@ -62,23 +62,34 @@ class NvidiaDisplayController : public IOFramebuffer
     OSDeclareDefaultStructors(NvidiaDisplayController)
 
 public:
-    /* IOFramebuffer overrides */
-    virtual IOReturn    enableController() override;
-    virtual IOReturn    getDisplayModes(IODisplayModeID *allDisplayModes,
-                                        uint32_t *count) override;
-    virtual IOReturn    getDisplayModeInformation(IODisplayModeID displayMode,
-                                                  IOIndex depth,
-                                                  IODisplayModeInformation *info) override;
-    virtual IOReturn    setDisplayMode(IODisplayModeID displayMode,
-                                       IOIndex depth) override;
-    virtual IOReturn    getApertureRange(IOPixelAperture aperture,
-                                         IODeviceMemory **range) override;
-    virtual IOReturn    getPixelInformation(IODisplayModeID displayMode,
-                                            IOIndex depth,
-                                            IOPixelAperture aperture,
-                                            IOPixelInformation *pixelInfo) override;
-    virtual IOReturn    getCurrentDisplayMode(IODisplayModeID *displayMode,
-                                              IOIndex *depth) override;
+    /* IOFramebuffer pure-virtual overrides – signatures must match SDK exactly */
+    virtual IOReturn        enableController() override;
+
+    /* Display mode enumeration */
+    virtual IOItemCount     getDisplayModeCount(void) override;
+    virtual IOReturn        getDisplayModes(IODisplayModeID *allDisplayModes) override;
+
+    /* Display mode information */
+    virtual IOReturn        getInformationForDisplayMode(IODisplayModeID displayMode,
+                                                         IODisplayModeInformation *info) override;
+
+    /* Pixel format queries */
+    virtual const char     *getPixelFormats(void) override;
+    virtual UInt64          getPixelFormatsForDisplayMode(IODisplayModeID displayMode,
+                                                          IOIndex depth) override;
+    virtual IOReturn        getPixelInformation(IODisplayModeID displayMode,
+                                                IOIndex depth,
+                                                IOPixelAperture aperture,
+                                                IOPixelInformation *pixelInfo) override;
+
+    /* Framebuffer aperture */
+    virtual IODeviceMemory *getApertureRange(IOPixelAperture aperture) override;
+
+    /* Mode switching */
+    virtual IOReturn        setDisplayMode(IODisplayModeID displayMode,
+                                           IOIndex depth) override;
+    virtual IOReturn        getCurrentDisplayMode(IODisplayModeID *displayMode,
+                                                  IOIndex *depth) override;
 
     /* Lifecycle */
     virtual bool        start(IOService *provider) override;

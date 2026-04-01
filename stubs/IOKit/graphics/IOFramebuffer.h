@@ -1,6 +1,7 @@
 /*
  * stubs/IOKit/graphics/IOFramebuffer.h
  * Minimal IOFramebuffer stubs for syntax-checking on Linux CI.
+ * Signatures mirror the real macOS SDK IOFramebuffer.h pure virtuals.
  */
 #ifndef _IOKIT_IOFRAMEBUFFER_H_STUB
 #define _IOKIT_IOFRAMEBUFFER_H_STUB
@@ -12,6 +13,8 @@
 typedef uint32_t  IODisplayModeID;
 typedef int32_t   IOIndex;
 typedef uint32_t  IOPixelAperture;
+typedef uint32_t  IOItemCount;
+typedef uint64_t  UInt64;
 
 #define kIORGBDirectPixels  0x10
 #define IO32BitDirectPixels "--------RRRRRRRRGGGGGGGGBBBBBBBB"
@@ -38,17 +41,30 @@ struct IOPixelInformation {
     uint8_t  _pad[128];
 };
 
+/*
+ * IOFramebuffer – pure-virtual interface matching the real macOS SDK.
+ * All pure virtuals must be implemented by subclasses.
+ */
 class IOFramebuffer : public IOService {
 public:
-    virtual IOReturn enableController() { return kIOReturnSuccess; }
-    virtual IOReturn getDisplayModes(IODisplayModeID *, uint32_t *) { return kIOReturnSuccess; }
-    virtual IOReturn getDisplayModeInformation(IODisplayModeID, IOIndex,
-                                               IODisplayModeInformation *) { return kIOReturnSuccess; }
-    virtual IOReturn setDisplayMode(IODisplayModeID, IOIndex) { return kIOReturnSuccess; }
-    virtual IOReturn getApertureRange(IOPixelAperture, IODeviceMemory **) { return kIOReturnSuccess; }
-    virtual IOReturn getPixelInformation(IODisplayModeID, IOIndex, IOPixelAperture,
-                                         IOPixelInformation *) { return kIOReturnSuccess; }
-    virtual IOReturn getCurrentDisplayMode(IODisplayModeID *, IOIndex *) { return kIOReturnSuccess; }
+    virtual IOReturn         enableController()                                           { return 0; }
+    virtual IOItemCount      getDisplayModeCount(void)                                    = 0;
+    virtual IOReturn         getDisplayModes(IODisplayModeID *allDisplayModes)            = 0;
+    virtual IOReturn         getInformationForDisplayMode(IODisplayModeID displayMode,
+                                                          IODisplayModeInformation *info) = 0;
+    virtual const char      *getPixelFormats(void)                                        = 0;
+    virtual UInt64           getPixelFormatsForDisplayMode(IODisplayModeID displayMode,
+                                                           IOIndex depth)                 = 0;
+    virtual IOReturn         getPixelInformation(IODisplayModeID displayMode,
+                                                 IOIndex depth,
+                                                 IOPixelAperture aperture,
+                                                 IOPixelInformation *pixelInfo)           = 0;
+    virtual IODeviceMemory  *getApertureRange(IOPixelAperture aperture)                   = 0;
+    virtual IOReturn         setDisplayMode(IODisplayModeID displayMode,
+                                            IOIndex depth)                                { return 0; }
+    virtual IOReturn         getCurrentDisplayMode(IODisplayModeID *displayMode,
+                                                   IOIndex *depth)                        { return 0; }
 };
 
 #endif /* _IOKIT_IOFRAMEBUFFER_H_STUB */
+

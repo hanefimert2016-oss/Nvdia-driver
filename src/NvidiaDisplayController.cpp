@@ -189,15 +189,25 @@ void NvidiaDisplayController::enableAcceleration()
 }
 
 /* =========================================================================
- * getDisplayModes
+ * getDisplayModeCount
  *
- * Returns mode IDs 1..kTimingCount.  Mode 1 is the default (1920×1080@60).
+ * Returns the total number of supported display modes.
  * ===================================================================== */
 
-IOReturn NvidiaDisplayController::getDisplayModes(IODisplayModeID *allDisplayModes,
-                                                   uint32_t *count)
+IOItemCount NvidiaDisplayController::getDisplayModeCount(void)
 {
-    if (count) *count = kTimingCount;
+    return static_cast<IOItemCount>(kTimingCount);
+}
+
+/* =========================================================================
+ * getDisplayModes
+ *
+ * Fills allDisplayModes[] with mode IDs 1..kTimingCount.
+ * Mode 1 is the default (1920×1080@60).
+ * ===================================================================== */
+
+IOReturn NvidiaDisplayController::getDisplayModes(IODisplayModeID *allDisplayModes)
+{
     if (allDisplayModes) {
         for (uint32_t i = 0; i < kTimingCount; i++)
             allDisplayModes[i] = static_cast<IODisplayModeID>(i + 1);
@@ -206,12 +216,11 @@ IOReturn NvidiaDisplayController::getDisplayModes(IODisplayModeID *allDisplayMod
 }
 
 /* =========================================================================
- * getDisplayModeInformation
+ * getInformationForDisplayMode
  * ===================================================================== */
 
-IOReturn NvidiaDisplayController::getDisplayModeInformation(
-        IODisplayModeID displayMode, IOIndex /*depth*/,
-        IODisplayModeInformation *info)
+IOReturn NvidiaDisplayController::getInformationForDisplayMode(
+        IODisplayModeID displayMode, IODisplayModeInformation *info)
 {
     if (!info) return kIOReturnBadArgument;
 
@@ -220,13 +229,13 @@ IOReturn NvidiaDisplayController::getDisplayModeInformation(
 
     const NvidiaDisplayTiming &t = kTimings[idx];
     memset(info, 0, sizeof(*info));
-    info->maxDepthIndex     = 0;          /* only one depth (32-bit BGRA) */
-    info->nominalWidth      = t.hActive;
-    info->nominalHeight     = t.vActive;
-    info->refreshRate       = (t.pixelClockKHz * 1000ULL /
-                               ((t.hActive + t.hFrontPorch + t.hSyncWidth + t.hBackPorch) *
-                                (t.vActive + t.vFrontPorch + t.vSyncWidth + t.vBackPorch)))
-                              << 16;      /* 16.16 fixed-point Hz */
+    info->maxDepthIndex = 0;          /* only one depth (32-bit BGRA) */
+    info->nominalWidth  = t.hActive;
+    info->nominalHeight = t.vActive;
+    info->refreshRate   = (uint32_t)((t.pixelClockKHz * 1000ULL /
+                           ((t.hActive + t.hFrontPorch + t.hSyncWidth + t.hBackPorch) *
+                            (t.vActive + t.vFrontPorch + t.vSyncWidth + t.vBackPorch)))
+                          << 16);     /* 16.16 fixed-point Hz */
     return kIOReturnSuccess;
 }
 
@@ -250,27 +259,51 @@ IOReturn NvidiaDisplayController::setDisplayMode(IODisplayModeID displayMode,
 }
 
 /* =========================================================================
+ * getPixelFormats
+ *
+ * Returns a NUL-separated list of supported pixel format strings,
+ * terminated by a double NUL.  We support one format: 32-bit BGRA.
+ * ===================================================================== */
+
+const char *NvidiaDisplayController::getPixelFormats(void)
+{
+    static const char kFormats[] = IO32BitDirectPixels "\0";
+    return kFormats;
+}
+
+/* =========================================================================
+ * getPixelFormatsForDisplayMode
+ *
+ * Returns a bitmask of supported pixel format indices for the given mode
+ * and depth.  Bit N set means the format at index N in getPixelFormats()
+ * is supported.  We support only depth 0 (32-bit BGRA).
+ * ===================================================================== */
+
+UInt64 NvidiaDisplayController::getPixelFormatsForDisplayMode(
+        IODisplayModeID /*displayMode*/, IOIndex depth)
+{
+    if (depth != 0) return 0ULL;
+    return 1ULL; /* bit 0 = first (only) format in getPixelFormats() */
+}
+
+/* =========================================================================
  * getApertureRange  – return framebuffer aperture (BAR1)
  * ===================================================================== */
 
-IOReturn NvidiaDisplayController::getApertureRange(IOPixelAperture /*aperture*/,
-                                                    IODeviceMemory **range)
+IODeviceMemory *NvidiaDisplayController::getApertureRange(IOPixelAperture /*aperture*/)
 {
-    if (!range) return kIOReturnBadArgument;
-    if (!fGPU)  return kIOReturnNotReady;
+    if (!fGPU) return nullptr;
 
     /* Ask the PCI device for BAR1 as an IODeviceMemory object */
     IOPCIDevice *pciDev = fGPU->getProvider() ?
         OSDynamicCast(IOPCIDevice, fGPU->getProvider()) : nullptr;
-    if (!pciDev) return kIOReturnNotReady;
+    if (!pciDev) return nullptr;
 
     IODeviceMemory *mem =
         pciDev->getDeviceMemoryWithRegister(kIOPCIConfigBaseAddress0 + 4);
 
-    if (!mem) return kIOReturnNoMemory;
-    mem->retain();
-    *range = mem;
-    return kIOReturnSuccess;
+    if (mem) mem->retain();
+    return mem;
 }
 
 /* =========================================================================

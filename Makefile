@@ -48,7 +48,8 @@ ifeq ($(UNAME_S),Darwin)
     -DNeXT \
     -I$(SDK)/System/Library/Frameworks/Kernel.framework/Headers \
     -I$(SRC_DIR) \
-    -Wall -Wextra -Wno-unused-parameter
+    -Wall -Wextra -Wno-unused-parameter \
+    -Wno-deprecated-declarations
   KEXT_LDFLAGS := \
     -arch x86_64 \
     -isysroot $(SDK) \
