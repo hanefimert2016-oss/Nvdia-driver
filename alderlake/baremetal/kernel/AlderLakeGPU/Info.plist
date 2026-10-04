@@ -18,6 +18,8 @@
     <string>0.0.1</string>
     <key>CFBundleVersion</key>
     <string>1</string>
+    <key>OSBundleRequired</key>
+    <string>Root</string>
     <key>OSBundleLibraries</key>
     <dict>
         <key>com.apple.iokit.IOPCIFamily</key>
@@ -34,6 +36,8 @@
             <key>CFBundleIdentifier</key>
             <string>dev.alderbridge.AlderLakeGPU</string>
             <key>IOClass</key>
+            <string>AlderLakeGPU</string>
+            <key>IOMatchCategory</key>
             <string>AlderLakeGPU</string>
             <key>IOPCIPrimaryMatch</key>
             <string>0x46A68086</string>
