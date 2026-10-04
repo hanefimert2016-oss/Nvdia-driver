@@ -1,0 +1,53 @@
+name: AlderLakeGPU
+
+targets:
+  AlderLakeGPU:
+    type: bundle
+    platform: macOS
+    deploymentTarget: "10.15"
+    sources:
+      - path: .
+        excludes:
+          - README.md
+          - Info.plist
+          - project.yml
+          - build.sh
+    settings:
+      base:
+        SDKROOT: macosx
+        ARCHS: x86_64
+        VALID_ARCHS: x86_64
+        ONLY_ACTIVE_ARCH: NO
+        PRODUCT_BUNDLE_IDENTIFIER: dev.alderbridge.AlderLakeGPU
+        PRODUCT_NAME: AlderLakeGPU
+        INFOPLIST_FILE: Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
+        CLANG_CXX_LANGUAGE_STANDARD: gnu++17
+        CLANG_CXX_LIBRARY: ""
+        CLANG_ENABLE_MODULES: NO
+        GCC_ENABLE_CPP_EXCEPTIONS: NO
+        GCC_ENABLE_CPP_RTTI: NO
+        GCC_PREPROCESSOR_DEFINITIONS:
+          - "$(inherited)"
+          - KERNEL=1
+        KERNEL_EXTENSION_HEADER_SEARCH_PATHS: "$(PROJECT_DIR)/MacKernelSDK/Headers"
+        KERNEL_FRAMEWORK_HEADERS: "$(PROJECT_DIR)/MacKernelSDK/Headers"
+        HEADER_SEARCH_PATHS:
+          - "$(PROJECT_DIR)/MacKernelSDK/Headers"
+        SYSTEM_HEADER_SEARCH_PATHS:
+          - "$(PROJECT_DIR)/MacKernelSDK/Headers"
+          - "$(SDKROOT)/System/Library/Frameworks/Kernel.framework/Headers"
+        LIBRARY_SEARCH_PATHS:
+          - "$(PROJECT_DIR)/MacKernelSDK/Library/x86_64"
+        OTHER_LDFLAGS:
+          - "$(inherited)"
+          - "-L$(PROJECT_DIR)/MacKernelSDK/Library/x86_64"
+          - "-lkmod"
+        MODULE_NAME: dev_alderbridge_AlderLakeGPU
+        MODULE_VERSION: "0.0.1"
+        MODULE_START: ""
+        MODULE_STOP: ""
+        CURRENT_PROJECT_VERSION: "0.0.1"
+        MARKETING_VERSION: "0.0.1"
