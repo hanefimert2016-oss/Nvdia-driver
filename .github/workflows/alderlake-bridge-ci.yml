@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - alderlake-igpu-metal-vulkan
+      - alderlake-igpu-baremetal-hackintosh
   pull_request:
     paths:
       - "alderlake/**"
@@ -27,5 +28,5 @@ jobs:
       - name: Build
         run: cmake --build build/alderlake
 
-      - name: Test translator
+      - name: Test translator and bare-metal ABI
         run: ctest --test-dir build/alderlake --output-on-failure
