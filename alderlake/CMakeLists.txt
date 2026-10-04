@@ -23,5 +23,10 @@ add_executable(alderbridge_tests
     tests/translator_tests.cpp
 )
 target_link_libraries(alderbridge_tests PRIVATE alderbridge)
-
 add_test(NAME alderbridge_tests COMMAND alderbridge_tests)
+
+add_executable(alderbridge_abi_tests
+    baremetal/tests/abi_layout_test.cpp
+)
+target_include_directories(alderbridge_abi_tests PRIVATE baremetal/shared)
+add_test(NAME alderbridge_abi_tests COMMAND alderbridge_abi_tests)
