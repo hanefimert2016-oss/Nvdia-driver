@@ -1,0 +1,44 @@
+name: Cross-build AlderLakeGPU kext
+
+on:
+  push:
+    branches:
+      - alderlake-igpu-baremetal-hackintosh
+    paths:
+      - "alderlake/baremetal/kernel/AlderLakeGPU/**"
+      - ".github/workflows/alderlake-kext-cross-build.yml"
+  workflow_dispatch:
+
+jobs:
+  cross-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install LLVM linker tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang lld llvm zip
+
+      - name: Build Mach-O x86_64 kext
+        run: |
+          chmod +x alderlake/baremetal/kernel/AlderLakeGPU/cross-build-linux.sh
+          alderlake/baremetal/kernel/AlderLakeGPU/cross-build-linux.sh
+
+      - name: Inspect Mach-O
+        run: |
+          BIN="alderlake/baremetal/kernel/AlderLakeGPU/cross-build/AlderLakeGPU.kext/Contents/MacOS/AlderLakeGPU"
+          file "$BIN"
+          llvm-nm "$BIN" | grep _kmod_info
+
+      - name: Package
+        run: |
+          cd alderlake/baremetal/kernel/AlderLakeGPU/cross-build
+          zip -qry AlderLakeGPU.kext.zip AlderLakeGPU.kext
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AlderLakeGPU-kext-x86_64-cross
+          path: alderlake/baremetal/kernel/AlderLakeGPU/cross-build/AlderLakeGPU.kext.zip
+          if-no-files-found: error
