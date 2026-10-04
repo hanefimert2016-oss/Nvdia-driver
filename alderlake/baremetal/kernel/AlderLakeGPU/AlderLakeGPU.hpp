@@ -1,6 +1,7 @@
 #pragma once
 
 #include <IOKit/IOService.h>
+#include <IOKit/IOMemoryDescriptor.h>
 #include <IOKit/pci/IOPCIDevice.h>
 
 class AlderLakeGPU final : public IOService {
