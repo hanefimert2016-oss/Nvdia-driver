@@ -1,0 +1,31 @@
+name: Alder Lake bridge CI
+
+on:
+  push:
+    branches:
+      - alderlake-igpu-metal-vulkan
+  pull_request:
+    paths:
+      - "alderlake/**"
+      - ".github/workflows/alderlake-bridge-ci.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build libvulkan-dev
+
+      - name: Configure
+        run: cmake -S alderlake -B build/alderlake -G Ninja
+
+      - name: Build
+        run: cmake --build build/alderlake
+
+      - name: Test translator
+        run: ctest --test-dir build/alderlake --output-on-failure
