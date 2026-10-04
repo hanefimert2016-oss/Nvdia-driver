@@ -17,14 +17,15 @@ bool AlderLakeGPU::verifyTarget() const {
 
     const UInt16 vendor = pci_->configRead16(kIOPCIConfigVendorID);
     const UInt16 device = pci_->configRead16(kIOPCIConfigDeviceID);
+    const UInt8 revision = pci_->configRead8(kIOPCIConfigRevisionID);
 
-    IOLog("AlderLakeGPU: PCI %04x:%04x\n", vendor, device);
+    IOLog("AlderLakeGPU: PCI %04x:%04x revision=%02x\n", vendor, device, revision);
     return vendor == kIntelVendor && device == kAlderLakeP46A6;
 }
 
 bool AlderLakeGPU::mapDiagnosticsBar() {
-    // Milestone A intentionally performs no MMIO writes.
-    // Mapping is used only to validate the resource layout reported by IOPCIFamily.
+    // Bring-up stage A: map the first PCI memory resource but never write MMIO.
+    // This is intentionally diagnostics-only.
     bar0_map_ = pci_->mapDeviceMemoryWithIndex(0);
     if (!bar0_map_) {
         IOLog("AlderLakeGPU: BAR index 0 could not be mapped\n");
@@ -32,10 +33,10 @@ bool AlderLakeGPU::mapDiagnosticsBar() {
     }
 
     IOLog(
-        "AlderLakeGPU: BAR0 phys=0x%llx len=0x%llx virt=%p (read-only diagnostics stage)\n",
+        "AlderLakeGPU: BAR0 phys=0x%llx len=0x%llx virt=0x%llx diagnostics-only\n",
         static_cast<unsigned long long>(bar0_map_->getPhysicalAddress()),
         static_cast<unsigned long long>(bar0_map_->getLength()),
-        reinterpret_cast<void*>(bar0_map_->getVirtualAddress())
+        static_cast<unsigned long long>(bar0_map_->getVirtualAddress())
     );
 
     return true;
@@ -60,7 +61,8 @@ bool AlderLakeGPU::start(IOService* provider) {
         return false;
     }
 
-    // Enable PCI memory-space decoding. No bus mastering or register writes yet.
+    // Only enable PCI memory decoding for BAR discovery.
+    // Bus mastering, interrupts, forcewake and GPU command submission remain off.
     pci_->setMemoryEnable(true);
 
     if (!mapDiagnosticsBar()) {
@@ -68,7 +70,10 @@ bool AlderLakeGPU::start(IOService* provider) {
         return false;
     }
 
-    IOLog("AlderLakeGPU: matched 8086:46A6; diagnostics-only attach successful\n");
+    setProperty("AlderBridgeStage", "PCI-diagnostics");
+    setProperty("AlderBridgeTarget", "8086:46A6");
+
+    IOLog("AlderLakeGPU: matched physical Alder Lake-P GT2 8086:46A6\n");
     registerService();
     return true;
 }
