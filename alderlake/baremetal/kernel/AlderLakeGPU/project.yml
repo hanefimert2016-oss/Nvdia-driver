@@ -45,10 +45,7 @@ targets:
           - "$(SDKROOT)/System/Library/Frameworks/Kernel.framework/Headers"
         LIBRARY_SEARCH_PATHS:
           - "$(PROJECT_DIR)/MacKernelSDK/Library/x86_64"
-        OTHER_LDFLAGS:
-          - "$(inherited)"
-          - "-L$(PROJECT_DIR)/MacKernelSDK/Library/x86_64"
-          - "-lkmod"
+        LD_RUNPATH_SEARCH_PATHS: ""
         MODULE_NAME: dev_alderbridge_AlderLakeGPU
         MODULE_VERSION: "0.0.1"
         MODULE_START: ""
